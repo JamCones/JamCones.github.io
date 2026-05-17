@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cameron Jones — Audio Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --amber:     #C97C2A;
+    --amber-dim: #A06020;
+    --amber-pale:#F5DFB8;
+    --amber-glow:#E8A84A;
+    --warm-bg:   #1A1612;
+    --surface:   #211D18;
+    --surface-2: #28231D;
+    --surface-3: #302A22;
+    --border:    #3A3028;
+    --border-hi: #4E4030;
+    --text-pri:  #EDE0C8;
+    --text-sec:  #9E8E70;
+    --text-dim:  #5E5040;
+    --green-sig: #4A8C3F;
+    --green-glo: #6EC95F;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Playfair Display', serif;
+    --sans: 'DM Sans', sans-serif;
+    --grid: 1fr;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--warm-bg);
+    color: var(--text-pri);
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    background: rgba(26,22,18,0.90);
+    backdrop-filter: blur(12px);
+  }
+
+  nav .inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--amber-glow);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--text-dim); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav ul a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-sec);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--amber-glow); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 5rem 0;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-glo);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--green-glo);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--text-pri);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--amber-glow);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-sec);
+    max-width: 540px;
+    margin-bottom: 3rem;
+    line-height: 1.8;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: var(--amber);
+    color: #0E0B07;
+    font-weight: 600;
+  }
+
+  .btn-primary:hover {
+    background: var(--amber-glow);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--border-hi);
+    color: var(--text-sec);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--amber);
+    color: var(--amber-glow);
+  }
+
+  /* waveform decoration */
+  .hero-wave {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.18;
+    z-index: 1;
+  }
+
+  /* ── SECTION COMMON ── */
+  section {
+    padding: 6rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 80px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: var(--text-pri);
+  }
+
+  h2 em { font-style: italic; color: var(--amber-glow); }
+
+  /* ── ABOUT ── */
+  #about .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 3.5rem;
+  }
+
+  .about-text p {
+    color: var(--text-sec);
+    margin-bottom: 1.25rem;
+    font-size: 0.97rem;
+  }
+
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-text strong { color: var(--text-pri); font-weight: 500; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .skill-cell {
+    background: var(--surface);
+    padding: 1.25rem 1rem;
+  }
+
+  .skill-cell:hover { background: var(--surface-2); }
+
+  .skill-icon {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text-pri);
+    margin-bottom: 0.25rem;
+  }
+
+  .skill-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--surface); }
+
+  .projects-intro {
+    color: var(--text-sec);
+    max-width: 560px;
+    margin-bottom: 3.5rem;
+    font-size: 0.97rem;
+  }
+
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--warm-bg);
+    margin-bottom: 1.5px;
+    transition: border-color 0.25s;
+  }
+
+  .project-card:last-child { margin-bottom: 0; }
+
+  .project-card:hover { border-color: var(--border-hi); }
+
+  .project-card + .project-card { margin-top: 1.5rem; }
+
+  .project-thumb {
+    width: 100%;
+    aspect-ratio: 16/7;
+    background: var(--surface-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Oscilloscope-style placeholder art */
+  .project-thumb svg {
+    opacity: 0.5;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .thumb-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    background: var(--surface-3);
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .project-body {
+    padding: 1.75rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green-glo);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-pri);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--text-sec);
+    line-height: 1.65;
+  }
+
+  .project-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+
+  .tag-pill {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-dim);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+
+  .coming-soon-banner {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: blink 1.8s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* ── ADD SCREENSHOT CALLOUT ── */
+  .screenshot-callout {
+    border: 1px dashed var(--border-hi);
+    border-radius: 4px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    background: var(--surface-2);
+  }
+
+  .callout-icon {
+    font-size: 1.5rem;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .callout-text { font-size: 0.88rem; color: var(--text-sec); }
+  .callout-text strong { color: var(--text-pri); font-weight: 500; }
+  .callout-text code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    background: var(--surface-3);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    color: var(--amber-pale);
+  }
+
+  /* ── CONTACT ── */
+  #contact .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+
+  .contact-text p {
+    color: var(--text-sec);
+    font-size: 0.97rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact-email {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--amber-glow);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-hi);
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+
+  .contact-email:hover {
+    color: var(--amber-pale);
+    border-color: var(--amber);
+  }
+
+  .links-list {
+    list-style: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .links-list li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .links-list li:last-child { border-bottom: none; }
+
+  .links-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    text-decoration: none;
+    transition: background 0.2s;
+    color: var(--text-pri);
+  }
+
+  .links-list a:hover { background: var(--surface-2); }
+
+  .link-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .link-platform {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    min-width: 80px;
+  }
+
+  .link-handle {
+    font-size: 0.9rem;
+    color: var(--text-sec);
+  }
+
+  .link-arrow {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .links-list a:hover .link-arrow {
+    transform: translateX(4px);
+    color: var(--amber);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .footer-sig { color: var(--amber-dim); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.25s; }
+  .delay-3 { animation-delay: 0.4s; }
+  .delay-4 { animation-delay: 0.55s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 720px) {
+    #about .layout,
+    #contact .layout { grid-template-columns: 1fr; gap: 3rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-body { grid-template-columns: 1fr; }
+    .project-links { flex-direction: row; align-items: flex-start; }
+    h1 { font-size: 2.6rem; }
+    nav ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <a href="#hero" class="nav-logo">CJJ<span>.dev</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- waveform SVG decoration -->
+  <svg class="hero-wave" width="560" height="340" viewBox="0 0 560 340" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline points="0,170 30,170 40,60 55,280 70,120 85,220 100,100 115,240 130,155 145,185 160,170 180,170 200,50 220,290 240,90 260,250 280,140 300,200 320,170 340,170 360,80 380,260 400,110 420,230 440,160 460,180 480,170 510,170 560,170"
+      stroke="#D4860A" stroke-width="1.5" fill="none"/>
+    <polyline points="0,170 40,170 55,110 70,230 85,150 100,190 115,170 145,170 160,120 175,220 190,155 205,185 220,170 250,170 265,90 280,250 295,130 310,210 325,170 355,170 370,100 385,240 400,145 415,195 430,170 460,170 475,140 490,200 505,165 520,175 560,170"
+      stroke="#4A8C3F" stroke-width="1" fill="none" opacity="0.5"/>
+  </svg>
+
+  <div class="container">
+    <div class="hero-content">
+      <p class="hero-eyebrow fade-up">Audio Software Developer &amp; DSP Engineer</p>
+      <h1 class="fade-up delay-1">Cameron<br><em>Jones</em></h1>
+      <p class="hero-desc fade-up delay-2">
+        Building at the intersection of code and sound — from digital signal processing
+        algorithms to modular synthesis environments. I make instruments that think.
+      </p>
+      <div class="hero-cta fade-up delay-3">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">01 — About</p>
+    <h2>Signal <em>Theory</em><br>meets Practice</h2>
+    <div class="layout">
+      <div class="about-text">
+        <p>
+          I'm Cameron — an audio software developer with a deep obsession for
+          <strong>electronic instruments</strong> and the music made with them. My work
+          sits at the crossroads of DSP theory, synthesis design, and the raw joy
+          of plugging a cable into something and not knowing quite what will happen.
+        </p>
+        <p>
+          My current focus is <strong>VCV Rack</strong> — designing custom modules
+          that explore unconventional approaches to signal processing, waveshaping,
+          and generative sound design. Every module is an experiment in translating
+          a mathematical idea into something you can hear.
+        </p>
+        <p>
+          Beyond the patch cables, I'm interested in the mathematics behind synthesis —
+          <strong>wavetable algorithms, filter topology, spectral processing</strong>
+          — and how these ideas can be shaped into expressive, playable instruments.
+        </p>
+        <p style="margin-top:2rem;">
+          <a href="#contact" class="btn btn-ghost">Let's collaborate →</a>
+        </p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-cell">
+          <div class="skill-icon">∿</div>
+          <p class="skill-name">DSP &amp; Synthesis</p>
+          <p class="skill-desc">Filters, oscillators, waveshapers, spectral algorithms</p>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-icon">⬡</div>
+          <p class="skill-name">VCV Rack</p>
+          <p class="skill-desc">Module design, Rack SDK, modular system architecture</p>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-icon">▶</div>
+          <p class="skill-name">Audio Dev</p>
+          <p class="skill-desc">C++, JUCE, real-time audio, plugin development</p>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-icon">≋</div>
+          <p class="skill-name">Synthesis Design</p>
+          <p class="skill-desc">Generative systems, FM, AM, physical modelling</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">02 — Projects</p>
+    <h2>Work &amp; <em>Modules</em></h2>
+    <p class="projects-intro">
+      A growing collection of audio software, VCV Rack modules, and experiments in
+      digital signal processing. Demo videos coming soon.
+    </p>
+
+    <!-- PROJECT 1 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <!-- placeholder waveform art -->
+        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,100 50,100 70,20 100,180 130,40 160,160 190,70 220,130 250,100 300,100 340,30 380,170 420,55 460,145 500,90 540,110 580,100 620,100 660,45 700,155 740,75 780,125 820,100 900,100"
+            stroke="#D4860A" stroke-width="2" fill="none"/>
+          <polyline points="0,100 60,100 80,60 110,140 140,75 170,125 200,100 250,100 280,40 320,160 360,65 400,135 440,95 480,105 520,100 560,100"
+            stroke="#4A8C3F" stroke-width="1.5" fill="none" opacity="0.6"/>
+        </svg>
+        <span class="thumb-label">Screenshots / demo video coming soon</span>
+      </div>
+      <div class="project-body">
+        <div>
+          <p class="project-tag">VCV Rack Module</p>
+          <p class="project-name">Module Name TBC</p>
+          <p class="project-desc">
+            Add a description of your first VCV Rack module here — what it does,
+            the DSP ideas behind it, and what makes it interesting to patch with.
+          </p>
+        </div>
+        <div class="project-links">
+          <span class="tag-pill">VCV Rack</span>
+          <span class="tag-pill">C++</span>
+          <span class="tag-pill">DSP</span>
+        </div>
+      </div>
+      <div class="coming-soon-banner">
+        <span class="dot"></span>
+        Demo video in editing — check back soon
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
+          <!-- FM-style complex waveform -->
+          <polyline points="0,100 20,100 30,40 45,160 60,55 75,145 90,80 105,120 120,95 135,105 150,100 170,100 190,30 210,170 230,45 250,155 270,70 290,130 310,100 330,100 350,35 370,165 390,60 410,140 430,85 450,115 470,100 490,100 510,50 530,150 550,75 570,125 590,100 610,100 630,40 650,160 670,65 690,135 710,90 730,110 750,100 770,100 790,55 810,145 830,80 850,120 870,100 900,100"
+            stroke="#A86500" stroke-width="2" fill="none"/>
+        </svg>
+        <span class="thumb-label">Screenshots / demo video coming soon</span>
+      </div>
+      <div class="project-body">
+        <div>
+          <p class="project-tag">VCV Rack Module</p>
+          <p class="project-name">Module Name TBC</p>
+          <p class="project-desc">
+            Add your second module description here. What synthesis technique does
+            it explore? What gap in the Rack ecosystem does it fill?
+          </p>
+        </div>
+        <div class="project-links">
+          <span class="tag-pill">VCV Rack</span>
+          <span class="tag-pill">Synthesis</span>
+        </div>
+      </div>
+      <div class="coming-soon-banner">
+        <span class="dot"></span>
+        Demo video in editing — check back soon
+      </div>
+    </div>
+
+    <!-- FUTURE PROJECTS PLACEHOLDER -->
+    <div class="project-card" style="border-style: dashed; opacity: 0.5;">
+      <div class="project-body" style="grid-template-columns:1fr;">
+        <div>
+          <p class="project-tag">Future Project</p>
+          <p class="project-name" style="color:var(--text-dim);">More coming soon</p>
+          <p class="project-desc">
+            This space is reserved for upcoming work — plugins, tools, experiments.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screenshot-callout">
+      <div class="callout-icon">📸</div>
+      <div class="callout-text">
+        <strong>To add screenshots or YouTube embeds:</strong> Drop your images into the
+        <code>.project-thumb</code> section by replacing the SVG with an
+        <code>&lt;img&gt;</code> tag, or embed a YouTube iframe in place of the thumbnail.
+        Videos are easy to swap in once your edits are done.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">03 — Contact</p>
+    <h2>Let's <em>Connect</em></h2>
+    <div class="layout">
+      <div class="contact-text">
+        <p>
+          Open to collaborations, commissions, and conversations about audio software,
+          synthesis design, or anything at the intersection of code and sound.
+        </p>
+        <p>
+          Whether you're building a module, a plugin, or something entirely undefined —
+          get in touch.
+        </p>
+        <a href="mailto:hello@yoursite.dev" class="contact-email">hello@yoursite.dev</a>
+      </div>
+
+      <ul class="links-list">
+        <li>
+          <a href="https://github.com/" target="_blank" rel="noopener">
+            <div class="link-left">
+              <span class="link-platform">GitHub</span>
+              <span class="link-handle">@cameronjackjones</span>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://youtube.com/" target="_blank" rel="noopener">
+            <div class="link-left">
+              <span class="link-platform">YouTube</span>
+              <span class="link-handle">Module demos &amp; patches</span>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://vcvrack.com/" target="_blank" rel="noopener">
+            <div class="link-left">
+              <span class="link-platform">VCV Rack</span>
+              <span class="link-handle">Plugin library</span>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener">
+            <div class="link-left">
+              <span class="link-platform">LinkedIn</span>
+              <span class="link-handle">Cameron Jones</span>
+            </div>
+            <span class="link-arrow">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container" style="display:flex; justify-content:space-between; width:100%;">
+    <span>© 2025 Cameron Jones</span>
+    <span class="footer-sig">Audio Software Developer — DSP &amp; Synthesis</span>
+  </div>
+</footer>
+
+</body>
+</html>
