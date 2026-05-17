@@ -587,6 +587,38 @@
   .delay-3 { animation-delay: 0.4s; }
   .delay-4 { animation-delay: 0.55s; }
 
+  /* ── HAMBURGER ── */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--text-sec);
+    transition: transform 0.25s, opacity 0.25s, background 0.2s;
+    transform-origin: center;
+  }
+
+  .nav-toggle:hover span { background: var(--amber-glow); }
+
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 720px) {
     #about .layout,
@@ -595,7 +627,30 @@
     .project-body { grid-template-columns: 1fr; }
     .project-links { flex-direction: row; align-items: flex-start; }
     h1 { font-size: 2.6rem; }
-    nav ul { display: none; }
+
+    .nav-toggle { display: flex; }
+
+    nav ul {
+      display: none;
+      position: absolute;
+      top: 56px;
+      left: 0; right: 0;
+      background: rgba(26,22,18,0.97);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem 0;
+    }
+
+    nav ul.is-open { display: flex; }
+
+    nav ul li a {
+      display: block;
+      padding: 0.9rem 2rem;
+      font-size: 12px;
+    }
+
+    nav ul li a:hover { background: var(--surface); }
   }
 </style>
 </head>
@@ -605,7 +660,10 @@
 <nav>
   <div class="inner">
     <a href="#hero" class="nav-logo">CJJ<span>.dev</span></a>
-    <ul>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="nav-menu">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -860,5 +918,22 @@
   </div>
 </footer>
 
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const menu   = document.getElementById('nav-menu');
+
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+
+  // close menu when a link is tapped
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 </body>
 </html>
