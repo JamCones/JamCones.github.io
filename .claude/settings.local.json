@@ -4,7 +4,13 @@
       "Bash(ls \"/Users/cam/Desktop/Spectral Modules Media/WebsitePics/\")",
       "Read(//Users/cam/Desktop/Spectral Modules Media/WebsitePics/**)",
       "Bash(cp \"/Users/cam/Desktop/Spectral Modules Media/WebsitePics/MSP.png\" /Users/cam/Repositories/Personal/PortfolioSite/images/)",
-      "Bash(cp \"/Users/cam/Desktop/Spectral Modules Media/WebsitePics/SSP.png\" /Users/cam/Repositories/Personal/PortfolioSite/images/)"
+      "Bash(cp \"/Users/cam/Desktop/Spectral Modules Media/WebsitePics/SSP.png\" /Users/cam/Repositories/Personal/PortfolioSite/images/)",
+      "Bash(ls ~/Desktop/*.png ~/Desktop/*.PNG 2>/dev/null)",
+      "Read(//Users/cam/Desktop/**)",
+      "Bash(cp ~/Desktop/TDP.png /Users/cam/Repositories/Personal/PortfolioSite/images/TDP.png)"
+    ],
+    "additionalDirectories": [
+      "/Users/cam/Desktop"
     ]
   }
 }

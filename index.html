@@ -430,6 +430,80 @@
     color: var(--text-dim);
   }
 
+  /* ── IN DEVELOPMENT SECTION ── */
+  .in-dev-section { margin-top: 3rem; }
+
+  .in-dev-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .in-dev-header::before,
+  .in-dev-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .in-dev-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: var(--surface);
+    white-space: nowrap;
+  }
+
+  .project-card--dev {
+    opacity: 0.8;
+    transition: opacity 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .project-card--dev:hover { opacity: 1; }
+
+  .project-card--dev .project-thumb img {
+    filter: grayscale(1);
+    transition: filter 0.35s;
+  }
+
+  .project-card--dev:hover .project-thumb img { filter: grayscale(0); }
+
+  .dev-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.35s;
+    pointer-events: none;
+  }
+
+  .dev-overlay span {
+    font-family: var(--mono);
+    font-size: clamp(10px, 1.2vw, 14px);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    background: rgba(15,12,8,0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 2px;
+    padding: 0.4rem 1.1rem;
+  }
+
+  .project-card--dev:hover .dev-overlay { opacity: 0; }
+
+  .tag-pill--dev { border-style: dashed; }
+
   .dot {
     width: 6px;
     height: 6px;
@@ -871,6 +945,66 @@
       </div>
     </div>
 
+    <!-- IN DEVELOPMENT -->
+    <div class="in-dev-section">
+      <div class="in-dev-header">
+        <span class="in-dev-label">In Development</span>
+      </div>
+
+      <!-- PROJECT 3 — TDP -->
+      <div class="project-card project-card--dev">
+        <div class="project-thumb">
+          <img src="images/TDP.png" alt="Time Domain Processor module screenshot">
+          <div class="dev-overlay"><span>In Development</span></div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-tag">VCV Rack Module / In Development</p>
+            <p class="project-name">Time Domain Processor</p>
+            <p class="project-desc">
+              A multitap delay module inheriting its philosophy from the Verbos Multi Delay
+              Processor and the Buchla 288 Time Domain Processor. Rather than a fixed feedback
+              path, exploration is encouraged - individual tap outputs and preweighted tap mixes are
+              exposed for patching through the onboard tilt filter or external processing. Two
+              algorithms are available: a precise uncoloured digital mode and a dark grungy BBD
+              emulation with selectable stages that shift the delay time range from short
+              modulation effects to longer echo lines. Sync via external clock or tap tempo.
+            </p>
+          </div>
+          <div class="project-links">
+            <span class="tag-pill tag-pill--dev">VCV Rack</span>
+            <span class="tag-pill tag-pill--dev">C++</span>
+            <span class="tag-pill tag-pill--dev">BBD Emulation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 4 — QGA -->
+      <div class="project-card project-card--dev">
+        <div class="project-thumb">
+          <img src="images/QGA.png" alt="Quad Gate Array module screenshot">
+          <div class="dev-overlay"><span>In Development</span></div>
+        </div>
+        <div class="project-body">
+          <div>
+            <p class="project-tag">VCV Rack Module / In Development</p>
+            <p class="project-name">Quad Gate Array</p>
+            <p class="project-desc">
+              A four-channel voltage-controlled dynamics and filter module inspired by the Make Noise
+              QMMG and Buchla 292. Each channel operates as a VCF, VCA, lowpass gate, or bandpass filter,
+              selectable per channel, with a shared feedback path and the ability to saturate and
+              drive. Designed to emulate the organic vactrol behaviour of hardware LPGs,
+              including response to short trigger pings.
+            </p>
+          </div>
+          <div class="project-links">
+            <span class="tag-pill tag-pill--dev">VCV Rack</span>
+            <span class="tag-pill tag-pill--dev">C++</span>
+            <span class="tag-pill tag-pill--dev">In Development</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </section>
@@ -912,6 +1046,7 @@
             <span class="link-arrow">→</span>
           </a>
         </li>
+        <!--
         <li>
           <div style="display:flex; align-items:center; justify-content:space-between; padding:1rem 1.25rem; background:var(--surface); opacity:0.5; cursor:default;">
             <div class="link-left">
@@ -930,6 +1065,7 @@
             <span style="font-family:var(--mono); font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim);">Pending</span>
           </div>
         </li>
+        -->
       </ul>
     </div>
   </div>
